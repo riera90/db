@@ -52,6 +52,7 @@ El problema esta planteado en el dominio de los análisis clínicos con metodos 
 \paragraph{}
 Estos factores supondrán en gran parte la complejidad de la base de datos, especificamente el dominio de los datos de la base de datos en los cuales tendrán que estar representadas en estas restricciones.
 \section{Factores a tener en cuenta.}
+\label{section:factoresatenerencuenta}
 \paragraph{}
 Los factores que más influyen en un análisis clínico son los siguientes:
 \begin{itemize}
@@ -65,7 +66,7 @@ Los factores que más influyen en un análisis clínico son los siguientes:
 \end{itemize}
 
 \section{Mediciones recogidas por los análisis.}
-Las medidas que se obtendrán serán las siguientes según el tipo de  análisis:
+Un ejemplo de las medidas obtenidas podría ser el siguiente:
 \subsection{Analisis de sangre.}
 Glucosa, Colesterol total, Colesterol HDL, Colesterol LDL, Triglicéridos, Ácido úrico, Transaminasas, GOT/ASAT, GPT/ALT, Proteínas totales, Albúmina, Bilirrubina total, Hematíes (eritrocitos), Hemoglobina, Hematocrito, V.C.M., H.C.M., C.H.C.M., Leucocitos, Neutrófilos, Linfocitos, Monocitos, Eosinófilos, Basófilos, Hierro, Ferritina, Plaquetas, V.S.G., Fibrinógeno \subsection{Analisis de saliva.}
 pH, Sodio, Potasio, cloro
@@ -83,13 +84,24 @@ Para poder implementar todas las restricciones de dominio, tendremos que crear e
 	\label{fig:diagramaanalisis}
 \end{figure}
 \paragraph{}
-Para poder representar todas las restricciones de dominio que presentan los analisis, tendremos que especificar tanto en sexo, edad, tipo de análisis y finalmente validez del análisis.
-\subsection{Restricciones de dominio segun el sexo.}
+Para poder representar todas las restricciones de dominio que presentan los analisis, tendremos que efectuar restricciones de dominio de la información tanto en sexo, edad, tipo de análisis y finalmente validez del análisis.
 \paragraph{}
-Podemos diferenciar entre sexos ya que los umbrales de normalidad pueden ser distintos en cada sexo.
-\subsection{Restricciones de dominio segun la edad.}
+A esto le tenemos que añadir, en el caso de la mujer el posible estado de embarazada a partir de la adolescencia.
+\subsection{Atributos de los análisis}
 \paragraph{}
-Debido a los diferentes máximos y mínimos en las distintas franjas de edades, haremo sla distincion entre cuatro grupos distintos.
+Cada análisis estara compuesto por diversos atributos los cuales haran referencia tanto a los valores de las mediciones obtenidas en el análisis del pariente, como a los umbrales de normalidad de dichas mediciones.
+\paragraph{}
+El analista debera de tener acceso a una serie de factores modificadores de los resultados del análisis como los citados anteriormente en la sección \ref{section:factoresatenerencuenta}, \nameref{section:factoresatenerencuenta}, estos seran almacenados como observaciones para su posterior uso por parte del personal cualificado.
+
+\pagebreak
+\subsection{Restricciones de dominio de la información.}
+\subsubsection{Restricciones de dominio segun el sexo.}
+\paragraph{}
+Podemos diferenciar entre sexos ya que los umbrales de normalidad en los análisis pueden ser distintos en cada sexo.
+
+\subsubsection{Restricciones de dominio segun la edad.}
+\paragraph{}
+Debido a los diferentes máximos y mínimos entre las distintas franjas de edades, haremos una distinción entre diferentes grupos de edades diferentes, una posible clasificación podria ser la siguiente:
 \begin{table}[hbt]
 		\begin{center}
 		\begin{tabular}{|c|c|}\hline
@@ -102,24 +114,33 @@ Debido a los diferentes máximos y mínimos en las distintas franjas de edades, 
 		\caption{Restricciones de dominio segun la edad}
 	\end{center}
 \end{table}
+\subsubsection{Restricciones de dominio segun la naturaleza del análisis}
+\paragraph{}
+Segun la naturaleza del análisis podemos distinguir entre varios tipos, en este ejemplo se consideran tres tipos de analiticas:
+\begin{itemize}
+	\item Análisis de sangre
+	\item Análisis de saliva
+	\item Análisis de orina
+\end{itemize}
+\subsubsection{Restricciones de dominio segun el embarazo.}
+\paragraph{}
+En el caso de la mujer, habrá un nivel extra de especialización, uno para el estado no embarazada y otro para el estado embarazada, la entidad análisis se especificará en uno u otro dependiendo del estado de la mujer en el momento del análisis, ya que este afectara en gran medida a muchos umbrales de normalidad.
 \pagebreak
-\subsection{Restricciones de dominio segun la Normalidad del análisis}
+\subsection{Consideraciones segun la normalidad del análisis}
 \paragraph{}
-Especializamos ahora en los distintos tipos de análisis, estos son los análisis de sangre, orina y saliva.
+En lo que respecta la normalidad del análisis, estos podran ser clasificados como $"$normales$"$ o $"$anormales$"$.
 \paragraph{}
-Finalmente, estas clases se podran especializar, por restriciones de dominio, en analisis $"$normales$"$ o $"$anormales$"$.
+Los análisis normales son todos aquellos cuyas mediciones se encuantran en el umbral de aceptación de la subclase a la que isntancian, si esto es cierto para todas las mediciones de susodicho análisis, el analisis sera considerado como normal.
 \paragraph{}
-Los análisis normales son todos aquellos cuyas mediciones se encuantran en el umbral de aceptación, siendo esto cierto para todas las mediciones, el analisis sera Normal.
-\paragraph{}
-En el caso de que una o varias mediciones se salgan del umbral de aceptación, estas seran instanciadas como instancia de la sublase $"$Análisis Anormal$"$ del correspondiente subtipo de análisis.
+En el caso de que una o varias mediciones se salgan del umbral de aceptación de dicha subclase, este será clasificado como $"$Análisis Anormal$"$.
 \paragraph{}
 Los umbrales seran definidos por un especialista en la materia devido a su alta complejidad.
 \paragraph{}
-En el caso de la mujer, habrá un nivel extra de especialización, uno para el estado no embarazada y otro para el estado embarazada, se instanciará uno u otro dependiendo del estado de la mujer en el momento del análisis.
+Si el análisis es clasificado como anormal, este será marcado como tal en un sitio visible del impreso.
 \paragraph{}
-Antes de la impresión, se evaluara si la medición esta entre los parametros máximos y mínimos, si esta no lo esta la medición se marcará en otro color al del texto.
+A demas, antes de la impresión, se evaluara si la medición esta entre los parametros máximos y mínimos, si esta no lo esta la medición se marcará en otro color al del texto normal.
 \paragraph{}
-Nótese que solo el sexo, edad, y en el caso de la mujer, si esta está embarazada se han tenido en cuneta para los máximos y los mínimos, el resto de factores se almacenaran en la variable $"$observaciones$"$ en las intancias de las sublases correspondientes al tipo y normalidad del análisis, para su posterior consideración por el personal cualificado.
+Nótese que solo el sexo, edad, y en el caso de la mujer, si esta está embarazada se han tenido en cuneta para los máximos y los mínimos, el resto de factores se almacenaran en la variable $"$observaciones$"$ en las intancias de las sublases correspondientes al tipo de análisis, para su posterior consideración por el personal cualificado.
 \pagebreak
 
 \section{Diagrama de clases de personas.}
