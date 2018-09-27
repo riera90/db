@@ -9,10 +9,10 @@
 \usepackage[spanish, activeacute]{babel} %Definir idioma español
 % \usepackage[margin=3cm]{geometry}
 \hypersetup{
-    colorlinks=true,
-    linkcolor=black,
-    filecolor=magenta,
-    urlcolor=cyan,
+colorlinks=true,
+linkcolor=black,
+filecolor=magenta,
+urlcolor=cyan,
 }
 \pagestyle{fancy}
 
@@ -22,9 +22,9 @@
 \cfoot{Bases de Datos}
 \newcommand\tab[1][1cm]{\hspace*{#1}}
 
-\title{Análisis clínicos III}
+\title{Análisis clínicos III\\{\small rev 2}}
 \author{Diego Rodríguez Riera}
-\date{22 de Septiemnbre de 2018}
+\date{\today}
 
 \begin{document}
 
@@ -48,157 +48,195 @@ Dado que aún no han sido impartidos los conceptos sobre el modelo conceptual En
 
 \section{Análisis del problema.}
 \paragraph{}
-El problema esta planteado en el dominio de los análisis clínicos con metodos actuales, estos se centran en varios factores los cuales varían según la edad, sexo y enfermedades del cliente.
+El problema está planteado en el dominio de los análisis clínicos con métodos actuales, estos se centran en varios factores los cuales varían según la edad, sexo y enfermedades del cliente.
 \paragraph{}
-Estos factores supondrán en gran parte la complejidad de la base de datos, especificamente el dominio de los datos de la base de datos en los cuales tendrán que estar representadas en estas restricciones.
+Estos factores supondrán en gran parte la complejidad de la base de datos, específicamente el dominio de los datos de la base de datos en los cuales tendrán que estar representadas en estas restricciones.
 \section{Factores a tener en cuenta.}
 \paragraph{}
 Los factores que más influyen en un análisis clínico son los siguientes:
 \begin{itemize}
-	\item Edad.
-	\item Sexo.
-	\item Embarazo.
-	\item Enfermedades.
-	\item Consumo de cafeína, tabaco o alcohol.
-	\item Situaciones de estrés o ansiedad.
-	\item Ejercicio Físico antes de la realización de la prueba.
+\item Edad.
+\item Sexo.
+\item Embarazo.
+\item Enfermedades.
+\item Consumo de cafeína, tabaco o alcohol.
+\item Situaciones de estrés o ansiedad.
+\item Ejercicio Físico antes de la realización de la prueba.
 \end{itemize}
 
 \section{Mediciones recogidas por los análisis.}
-Las medidas que se obtendrán serán las siguientes según el tipo de  análisis:
-\subsection{Analisis de sangre.}
+Las medidas que se obtendrán serán las siguientes según el tipo de análisis:
+\subsection{Análisis de sangre.}
 Glucosa, Colesterol total, Colesterol HDL, Colesterol LDL, Triglicéridos, Ácido úrico, Transaminasas, GOT/ASAT, GPT/ALT, Proteínas totales, Albúmina, Bilirrubina total, Hematíes (eritrocitos), Hemoglobina, Hematocrito, V.C.M., H.C.M., C.H.C.M., Leucocitos, Neutrófilos, Linfocitos, Monocitos, Eosinófilos, Basófilos, Hierro, Ferritina, Plaquetas, V.S.G., Fibrinógeno \subsection{Analisis de saliva.}
 pH, Sodio, Potasio, cloro
-\subsection{Analisis de orina.}
+\subsection{Análisis de orina.}
 Albúmina, Densidad, pH, Glucosa, Proteínas, Cetonas, Urobilinógeno y bilirrubina, Nitrito, Cristales, Células epiteliales, cilindros, Cuerpos cetónicos, Osmolalidad, Glóbulos rojos, Glóbulos blancos, Cetona, Creatinina
 \pagebreak
 
-\section{Diagrama de abstracción de análisis.}
+\section{Diagrama de clases de análisis.}
 \paragraph{}
-Para poder implementar todas las restricciones de dominio, tendremos que crear el siguiente árbol de generalización para los analisis:\\
-\vspace{0.7cm}\\
+Para poder implementar todas las restricciones de dominio, tendremos que crear el siguiente árbol de generalización para los análisis:\\
+% \vspace{0.7cm}\\
+\begin{figure}[hbt]
 \includegraphics[width=\textwidth]{img/analisis.png}
+\caption{Diagrama de clases de análisis.}
+\label{fig:diagramaanalisis}
+\end{figure}
 \paragraph{}
-Estas clases, a demás de las mediciones obtenidas por el análisis, tendrán también unos valores máximos y mínimos saludables para cada una de las mediciones evaluadas en los distintos análisis para su posterior contraste de resultados por el médico.
+Para poder representar todas las restricciones de dominio que presentan los análisis, tendremos que especificar tanto en sexo, edad, tipo de análisis y finalmente validez del análisis.
+\subsection{Restricciones de dominio según el sexo.}
 \paragraph{}
-En el caso de la mujer, habrá dos máximos y mínimos, uno para el estado no embarazada y otro para el estado embarazada, se aplicaran uno u otro dependiendo de la variable booleana "embarazada".
+Podemos diferenciar entre sexos ya que los umbrales de normalidad pueden ser distintos en cada sexo.
+\subsection{Restricciones de dominio según la edad.}
 \paragraph{}
-Antes de la impresión, se evaluara si la medición esta entre los parametros máximos y mínimos, si esta no lo esta la medición se marcará en otro color al del texto.
+Debido a los diferentes máximos y mínimos en las distintas franjas de edades, haremos la distinción entre cuatro grupos distintos.
+\begin{table}[hbt]
+\begin{center}
+\begin{tabular}{|c|c|}\hline
+subclase & franja de edad \\ \hline
+Niño & $<$10 \\ \hline
+Adolescente & 10-25 \\ \hline
+Adulto & 25-70 \\ \hline
+Tercera edad & $>$70 \\ \hline
+\end{tabular}
+\caption{Restricciones de dominio según la edad}
+\end{center}
+\end{table}
+\pagebreak
+\subsection{Restricciones de dominio según la Normalidad del análisis}
 \paragraph{}
-Nótese que solo el sexo, edad, y en el caso de la mujer, si esta está embarazada se han tenido en cuneta para los máximos y los mínimos, el resto de factores se almacenaran en la variable "observaciones" en las clases, para su posterior consideración por el personal cualificado.
+Especializamos ahora en los distintos tipos de análisis, estos son los análisis de sangre, orina y saliva.
+\paragraph{}
+Finalmente, estas clases se podrán especializar, por restricciones de dominio, en análisis $"$normales$"$ o $"$anormales$"$.
+\paragraph{}
+Los análisis normales son todos aquellos cuyas mediciones se encuentran en el umbral de aceptación, siendo esto cierto para todas las mediciones, el análisis será Normal.
+\paragraph{}
+En el caso de que una o varias mediciones se salgan del umbral de aceptación, estas serán instanciadas como instancia de la subclase $"$Análisis Anormal$"$ del correspondiente subtipo de análisis.
+\paragraph{}
+Los umbrales serán definidos por un especialista en la materia debido a su alta complejidad.
+\paragraph{}
+En el caso de la mujer, habrá un nivel extra de especialización, uno para el estado no embarazada y otro para el estado embarazada, se instanciará uno u otro dependiendo del estado de la mujer en el momento del análisis.
+\paragraph{}
+Antes de la impresión, se evaluara si la medición está entre los parámetros máximos y mínimos, si esta no lo está, la medición se marcará en otro color al del texto.
+\paragraph{}
+Nótese que solo el sexo, edad, y en el caso de la mujer, si esta está embarazada se han tenido en cuneta para los máximos y los mínimos, el resto de factores se almacenaran en la variable $"$observaciones$"$ en las instancias de las subclases correspondientes al tipo y normalidad del análisis, para su posterior consideración por el personal cualificado.
 \pagebreak
 
-\section{Diagrama de abstracción de personas.}
+\section{Diagrama de clases de personas.}
 \paragraph{}
 Hay tres tipos de personas, el paciente al que se realiza el análisis, el Doctor que receta el análisis el analista que lleva a cabo el análisis en el laboratorio.
 \paragraph{}
 El diagrama de abstracción seria el siguiente:
 \vspace{0.5cm}
 \begin{center}
-\includegraphics{img/personas.png}
+\begin{figure}[hbt]
+\includegraphics[width=\textwidth]{img/personas.png}
+\caption{Diagrama de clases de personas.}
+\label{fig:diagramapersonas}
+\end{figure}
 \end{center}
 \paragraph{}
 Para que un análisis sea realizado este debe de ser mandado por un médico a excepción de casos particulares.
 \paragraph{}
-Las propiedades que se guardarán de las distintas clases serán las siguientes:
+Los atributos que se guardarán de las distintas clases serán las siguientes:
 \begin{itemize}
-	\item {\bf Paciente}: dni, numero de la seguridad social, sexo, fecha de nacimiento, lugar de nacimiento y una lista de análisis realizados.
-	\item {\bf Doctor}: dni, fecha de nacimiento y campo o especialidad.
-	\item {\bf Analista}: dni, fecha de nacimiento, campo o especialidad y especialidad como analista.
+\item {\bf Paciente}: \underline{número de la seguridad social}, sexo, fecha de nacimiento y lugar de nacimiento.
+\item {\bf Doctor}: \underline{número de colegiado} y campo o especialidad.
+\item {\bf Analista}: \underline{dni}, fecha de nacimiento, campo o especialidad y especialidad como analista.
 \end{itemize}
 \paragraph{}
-Tanto los médicos como los analistas tendrán estar titulados con las titulaciones correspondientes a la tarea desempeñada, y el dni del paciente tendrá que ser válido.
+Tanto los médicos como los analistas tendrán estar titulados con las titulaciones correspondientes a la tarea desempeñada.
 \paragraph{}
-cada análisis tiene un id único, este es generado automáticamente y es incremental, además, el análisis guarda de quien es el análisis (paciente), quien lo ha realizado (analista) y quien lo ha encargado (el doctor).
+Las claves principales están marcadas con subrayado en los atributos de las clases Paciente, Doctor Y Analista
 \paragraph{}
+Cada análisis tiene un id único, este es generado automáticamente y es incremental, además, el análisis guarda de quien es el análisis (paciente), quien lo ha realizado (analista) y quien lo ha encargado (el doctor).
+\paragraph{}
+Reverenciando a la figura ~\ref{fig:diagramaanalisis}, y figura ~\ref{fig:diagramapersonas} la multiplicidad de la relación entre análisis y las diferentes especializaciones de la entidad persona, son las siguientes:
+\paragraph{Paciente-Análisis}
+Devido a que un paciente podrá efectuar múltiples análisis, la relación será de 1:N, ya que un análisis será solo de un cliente.
+\paragraph{Doctor-Análisis}
+De igual manera que la relación Paciente-Análisis, esta relacción tiene la multiplicidad 1:N, ya que un análisis solo puede como máximo ser recetado por un doctor, pero en ciertos escenarios, no hace falta un doctor que lo recete.
+\paragraph{Analista-Análisis}
+Con multiplicidad N:N, ya que un análisis puede ser llevado a cabo por varios analistas.
 
-\pagebreak
-
-\section{Diagrama de abstracción de máquinas.}
+\section{Máquinas.}
 En el laboratorio existen tres tipos de maquinas que pueden escribir o leer de un análisis, estas están representadas en el siguiente diagrama:
-\vspace{0.5cm}\\
-\includegraphics[width=\textwidth]{img/maquinas.png}
+% \vspace{0.5cm}\\
+% \includegraphics[width=\textwidth]{img/maquinas.png}
 \paragraph{}
-Como se puede observar, de la clase maquina, derivan tres subclases:
+Como se puede observar, de la entidad maquina, se especializan tres clases:
 \begin{itemize}
-	\item {\bf Análizadora} Maquina encargada de obtener automáticamente los análisis de las muestras del paciente, hay tres tipos, una por cada tipo de análisis:
-	\begin{itemize}
-		\item {\it Análizadora de sangre}.
-		\item {\it Análizadora de saliva}.
-		\item {\it Análizadora de orina}.
-	\end{itemize}
-	Estas maquinas pueden obtener ciertos resultados por ellas mismas sin intervención humana mas allá del posicionamiento de las muestras.
-	\item {\bf Impresora}: Encargada de imprimir todo documento que se le mande.
-	\item {\bf Terminal}: Debido a que no todas las mediciones podrán hacerse automáticamente por las máquinas, algunas muestras tendrán que ser analizadas por los analistas, estos entonces podrán introducir los resultados a travez de una terminal en el laboratorio.
+\item {\bf Analizadora} Maquina encargada de obtener automáticamente los análisis de las muestras del paciente, a su vez, esta se especializa en tres subclases, una por cada tipo de análisis:
+\begin{itemize}
+\item {\it Analizadora de sangre}.
+\item {\it Analizadora de saliva}.
+\item {\it Analizadora de orina}.
+\end{itemize}
+Estas maquinas pueden obtener ciertos resultados por ellas mismas sin intervención humana más allá del posicionamiento de las muestras.
+\item {\bf Impresora}: Encargada de imprimir todo documento que se le mande.
+\item {\bf Terminal}: Debido a que no todas las mediciones podrán hacerse automáticamente por las máquinas, algunas muestras tendrán que ser analizadas por los analistas, estos entonces podrán introducir los resultados a través de una terminal en el laboratorio.
 \end{itemize}
 \paragraph{}
 Una vez completado el análisis, se mandara un documento generado a partir de los datos del análisis al servidor de impresión para su posterior recogida por el doctor que la encargo.\\
 \pagebreak
-\section{Vista general.}
-\paragraph{}
-Gran parte del diagrama de análisis ha sido omitido.\\
-\vspace{0.7cm}\\
-\includegraphics[width=\textwidth]{img/all.png}
-
-
-
+% \section{Vista general.}
+% \paragraph{}
+% Gran parte del diagrama de análisis ha sido omitido.\\
+% \vspace{0.7cm}\\
+% \includegraphics[width=\textwidth]{img/all.png}
 
 %%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%
 %%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%
-%                           commented out things
+% commented out things
 %%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%
 %%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%
-
-
-
 
 % \section{Tabla de valores aceptables}
 % \subsection{Análisis de sangre}
 % \begin{center}
-% 	\begin{tabular}{|c|c|c|c|c|c|c|c|c|c|} \hline
+% \begin{tabular}{|c|c|c|c|c|c|c|c|c|c|} \hline
 %
-% 		% header
+% % header
 %
-% 		\multirow{2}{*}{medida} & \multicolumn{4}{|c|}{Hombre} & \multicolumn{4}{|c|}{Mujer} & \multirow{2}{*}{unidades} \\ \cline{2-9}
-% 		& 0-10 & 10-20 & 20-50 & 50+ & 0-10 & 10-20 & 20-50 & 50+ & \\ \hline
+% \multirow{2}{*}{medida} & \multicolumn{4}{|c|}{Hombre} & \multicolumn{4}{|c|}{Mujer} & \multirow{2}{*}{unidades} \\ \cline{2-9}
+% & 0-10 & 10-20 & 20-50 & 50+ & 0-10 & 10-20 & 20-50 & 50+ & \\ \hline
 %
-% 		% data
+% % data
 %
 % %Glucosa,
 %
-% Glucosa & 100-180 & \multicolumn{3}{|c|}{90-130} & 100-180 &  \multicolumn{3}{|c|}{90-130} & mg/dL \\ \hline
+% Glucosa & 100-180 & \multicolumn{3}{|c|}{90-130} & 100-180 & \multicolumn{3}{|c|}{90-130} & mg/dL \\ \hline
 % Colesterol total & \multicolumn{2}{c|}{$<$170} & \multicolumn{2}{c|}{125-200} &\multicolumn{2}{c|}{$<$170} & \multicolumn{2}{c|}{125-200} & mg/dL\\ \hline
-% Colesterol HDL  &\multicolumn{4}{c|}{$<$100} &\multicolumn{4}{c|}{$<$100} & mg/dL\\ \hline
-% Triglicéridos &  &  &  &  &  &  & & & \\ \hline
-% Ácido úrico &  &  &  &  &  &  & & & \\ \hline
-% Transaminasas &  &  &  &  &  &  & & & \\ \hline
-% GOT/ASAT &  &  &  &  &  &  & & & \\ \hline
-% GPT/ALT &  &  &  &  &  &  & & & \\ \hline
-% Proteínas totales &  &  &  &  &  &  & & & \\ \hline
-% Albúmina &  &  &  &  &  &  & & & \\ \hline
-% Bilirrubina total &  &  &  &  &  &  & & & \\ \hline
-% Hematíes (eritrocitos) &  &  &  &  &  &  & & & \\ \hline
-% Hemoglobina &  &  &  &  &  &  & & & \\ \hline
-% Hematocrito &  &  &  &  &  &  & & & \\ \hline
-% V.C.M. &  &  &  &  &  &  & & & \\ \hline
-% H.C.M. &  &  &  &  &  &  & & & \\ \hline
-% C.H.C.M. &  &  &  &  &  &  & & & \\ \hline
-% Leucocitos &  &  &  &  &  &  & & & \\ \hline
-% Neutrófilos &  &  &  &  &  &  & & & \\ \hline
-% Linfocitos &  &  &  &  &  &  & & & \\ \hline
-% Monocitos &  &  &  &  &  &  & & & \\ \hline
-% Eosinófilos &  &  &  &  &  &  & & & \\ \hline
-% Basófilos &  &  &  &  &  &  & & & \\ \hline
-% Hierro &  &  &  &  &  &  & & & \\ \hline
-% Ferritina &  &  &  &  &  &  & & & \\ \hline
-% Plaquetas &  &  &  &  &  &  & & & \\ \hline
-% V.S.G. &  &  &  &  &  &  & & & \\ \hline
-% Fibrinógeno &  &  &  &  &  &  & & & \\ \hline
+% Colesterol HDL &\multicolumn{4}{c|}{$<$100} &\multicolumn{4}{c|}{$<$100} & mg/dL\\ \hline
+% Triglicéridos & & & & & & & & & \\ \hline
+% Ácido úrico & & & & & & & & & \\ \hline
+% Transaminasas & & & & & & & & & \\ \hline
+% GOT/ASAT & & & & & & & & & \\ \hline
+% GPT/ALT & & & & & & & & & \\ \hline
+% Proteínas totales & & & & & & & & & \\ \hline
+% Albúmina & & & & & & & & & \\ \hline
+% Bilirrubina total & & & & & & & & & \\ \hline
+% Hematíes (eritrocitos) & & & & & & & & & \\ \hline
+% Hemoglobina & & & & & & & & & \\ \hline
+% Hematocrito & & & & & & & & & \\ \hline
+% V.C.M. & & & & & & & & & \\ \hline
+% H.C.M. & & & & & & & & & \\ \hline
+% C.H.C.M. & & & & & & & & & \\ \hline
+% Leucocitos & & & & & & & & & \\ \hline
+% Neutrófilos & & & & & & & & & \\ \hline
+% Linfocitos & & & & & & & & & \\ \hline
+% Monocitos & & & & & & & & & \\ \hline
+% Eosinófilos & & & & & & & & & \\ \hline
+% Basófilos & & & & & & & & & \\ \hline
+% Hierro & & & & & & & & & \\ \hline
+% Ferritina & & & & & & & & & \\ \hline
+% Plaquetas & & & & & & & & & \\ \hline
+% V.S.G. & & & & & & & & & \\ \hline
+% Fibrinógeno & & & & & & & & & \\ \hline
 %
 %
-% 	\end{tabular}
+% \end{tabular}
 % \end{center}
-
 
 % \raggedleft Document written in \LaTeX{}
 \end{document}
