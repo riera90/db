@@ -1,4 +1,3 @@
-
 \documentclass[a4paper,10pt]{article}
 \usepackage[utf8]{inputenc} %Codificacion utf-8
 \usepackage{graphicx}
@@ -22,7 +21,7 @@
 \cfoot{Bases de Datos}
 \newcommand\tab[1][1cm]{\hspace*{#1}}
 
-\title{Análisis clínicos III\\{\small rev 2}}
+\title{Análisis clínicos III\\{\small Revisión 3}}
 \author{Diego Rodríguez Riera}
 \date{\today}
 
@@ -35,7 +34,7 @@
 
 \section{Definición del problema.}
 \paragraph{}
-A lo largo de las clases impartidas el alumnado ha comprendido la importancia de una descripción rigurosa del problema del mundo real con el fin de poder construir un modelo conceptual del mismo que sirva de base para la representación lógica del problema y su tratamiento mediante la tecnología de bases de datos.
+A lo largo de las clases impartidas el alumnado ha comprendido la importancia de una descripción rigurosa del problema del mundo real co n el fin de poder construir un modelo conceptual del mismo que sirva de base para la representación lógica del problema y su tratamiento mediante la tecnología de bases de datos.
 \paragraph{}
 Por lo tanto, como paso previo al uso de un modelo de datos para la construcción del modelo conceptual, es necesario llevar a cabo el estudio exhaustivo del problema planteado (Gestión de Análisis Clínicos).
 \paragraph{}
@@ -48,9 +47,9 @@ Dado que aún no han sido impartidos los conceptos sobre el modelo conceptual En
 
 \section{Análisis del problema.}
 \paragraph{}
-El problema esta planteado en el dominio de los análisis clínicos con metodos actuales, estos se centran en varios factores los cuales varían según la edad, sexo y enfermedades del cliente.
+El problema está planteado en el dominio de los análisis clínicos con métodos actuales. Estos se centran en varios factores los cuales varían según la edad, sexo y enfermedades del cliente.
 \paragraph{}
-Estos factores supondrán en gran parte la complejidad de la base de datos, especificamente el dominio de los datos de la base de datos en los cuales tendrán que estar representadas en estas restricciones.
+Estos factores supondrán en gran parte la complejidad de la base de datos, específicamente el dominio de información de la base de datos en los cuales tendrán que estar representadas en estas restricciones.
 \section{Factores a tener en cuenta.}
 \label{section:factoresatenerencuenta}
 \paragraph{}
@@ -76,7 +75,7 @@ Albúmina, Densidad, pH, Glucosa, Proteínas, Cetonas, Urobilinógeno y bilirrub
 
 \section{Diagrama de clases de análisis.}
 \paragraph{}
-Para poder implementar todas las restricciones de dominio, tendremos que crear el siguiente árbol de generalización para los analisis:\\
+Para poder implementar todas las restricciones de dominio, tendremos que crear el siguiente árbol de generalización para los análisis:\\
 % \vspace{0.7cm}\\
 \begin{figure}[hbt]
 	\includegraphics[width=\textwidth]{img/analisis.png}
@@ -84,24 +83,24 @@ Para poder implementar todas las restricciones de dominio, tendremos que crear e
 	\label{fig:diagramaanalisis}
 \end{figure}
 \paragraph{}
-Para poder representar todas las restricciones de dominio que presentan los analisis, tendremos que efectuar restricciones de dominio de la información tanto en sexo, edad, tipo de análisis y finalmente validez del análisis.
+Para poder representar todas las restricciones de dominio que presentan los análisis, tendremos que efectuar restricciones de dominio de la información tanto en sexo, edad, tipo de análisis y, finalmente, validez del análisis.
 \paragraph{}
-A esto le tenemos que añadir, en el caso de la mujer el posible estado de embarazada a partir de la adolescencia.
+A esto le tenemos que añadir, en el caso de la mujer, el posible estado de embarazo a partir de la adolescencia.
 \subsection{Atributos de los análisis}
 \paragraph{}
-Cada análisis estara compuesto por diversos atributos los cuales haran referencia tanto a los valores de las mediciones obtenidas en el análisis del pariente, como a los umbrales de normalidad de dichas mediciones.
+Cada análisis estará compuesto por diversos atributos, los cuales harán referencia tanto a los valores de las mediciones obtenidas en el análisis del paciente, como a los umbrales de normalidad de dichas mediciones.
 \paragraph{}
-El analista debera de tener acceso a una serie de factores modificadores de los resultados del análisis como los citados anteriormente en la sección \ref{section:factoresatenerencuenta}, \nameref{section:factoresatenerencuenta}, estos seran almacenados como observaciones para su posterior uso por parte del personal cualificado.
+El analista deberá de tener acceso a una serie de factores modificadores de los resultados del análisis como los citados anteriormente en la sección \ref{section:factoresatenerencuenta}. \nameref{section:factoresatenerencuenta}, estos serán almacenados como observaciones para su posterior uso por parte del personal cualificado.
 
 \pagebreak
 \subsection{Restricciones de dominio de la información.}
-\subsubsection{Restricciones de dominio segun el sexo.}
+\subsubsection{Restricciones de dominio según el sexo.}
 \paragraph{}
 Podemos diferenciar entre sexos ya que los umbrales de normalidad en los análisis pueden ser distintos en cada sexo.
 
-\subsubsection{Restricciones de dominio segun la edad.}
+\subsubsection{Restricciones de dominio según la edad.}
 \paragraph{}
-Debido a los diferentes máximos y mínimos entre las distintas franjas de edades, haremos una distinción entre diferentes grupos de edades diferentes, una posible clasificación podria ser la siguiente:
+Debido a los diferentes máximos y mínimos entre las distintas franjas de edades, haremos una distinción entre los distintos grupos de edades diferentes. Una posible clasificación podría ser la siguiente:
 \begin{table}[hbt]
 		\begin{center}
 		\begin{tabular}{|c|c|}\hline
@@ -111,43 +110,43 @@ Debido a los diferentes máximos y mínimos entre las distintas franjas de edade
 			Adulto & 25-70 \\ \hline
 			Tercera edad & $>$70 \\ \hline
 		\end{tabular}
-		\caption{Restricciones de dominio segun la edad}
+		\caption{Restricciones de dominio según la edad}
 	\end{center}
 \end{table}
-\subsubsection{Restricciones de dominio segun la naturaleza del análisis}
+\subsubsection{Restricciones de dominio según la naturaleza del análisis}
 \paragraph{}
-Segun la naturaleza del análisis podemos distinguir entre varios tipos, en este ejemplo se consideran tres tipos de analiticas:
+Según la naturaleza del análisis podemos distinguir entre varios tipos, en este ejemplo se consideran tres tipos de analíticas:
 \begin{itemize}
 	\item Análisis de sangre
 	\item Análisis de saliva
 	\item Análisis de orina
 \end{itemize}
-\subsubsection{Restricciones de dominio segun el embarazo.}
+\subsubsection{Restricciones de dominio según el embarazo.}
 \paragraph{}
-En el caso de la mujer, habrá un nivel extra de especialización, uno para el estado no embarazada y otro para el estado embarazada, la entidad análisis se especificará en uno u otro dependiendo del estado de la mujer en el momento del análisis, ya que este afectara en gran medida a muchos umbrales de normalidad.
+En el caso de la mujer, habrá un nivel extra de especialización, uno para el estado no embarazada y otro para el estado embarazada. La entidad análisis se especificará en uno u otro dependiendo del estado de la mujer en el momento del análisis, ya que éste afectará en gran medida a muchos umbrales de normalidad.
 \pagebreak
-\subsection{Consideraciones segun la normalidad del análisis}
+\subsection{Consideraciones según la normalidad del análisis}
 \paragraph{}
-En lo que respecta la normalidad del análisis, estos podran ser clasificados como $"$normales$"$ o $"$anormales$"$.
+En lo que respecta a la normalidad del análisis, estos podrán ser clasificados como $"$normales$"$ o $"$anomaloes$"$.
 \paragraph{}
-Los análisis normales son todos aquellos cuyas mediciones se encuantran en el umbral de aceptación de la subclase a la que isntancian, si esto es cierto para todas las mediciones de susodicho análisis, el analisis sera considerado como normal.
+Los análisis normales son todos aquellos cuyas mediciones se encuentran en el umbral de aceptación de la subclase a la que instancia, si esto es cierto para todas las mediciones de susodicho análisis, el análisis sera considerado como normal.
 \paragraph{}
-En el caso de que una o varias mediciones se salgan del umbral de aceptación de dicha subclase, este será clasificado como $"$Análisis Anormal$"$.
+En el caso de que una o varias mediciones se salgan del umbral de aceptación de dicha subclase, éste será clasificado como $"$Análisis Anomalo$"$.
 \paragraph{}
-Los umbrales seran definidos por un especialista en la materia devido a su alta complejidad.
+Los umbrales serán definidos por un especialista en la materia debido a su alta complejidad.
 \paragraph{}
-Si el análisis es clasificado como anormal, este será marcado como tal en un sitio visible del impreso.
+Si el análisis es clasificado como anomalo, éste será marcado como tal en un sitio visible del impreso.
 \paragraph{}
-A demas, antes de la impresión, se evaluara si la medición esta entre los parametros máximos y mínimos, si esta no lo esta la medición se marcará en otro color al del texto normal.
+Además, antes de la impresión, se evaluará si la medición está entre los parámetros máximos y mínimos, si no lo está, la medición se marcará en un color distinto al del texto normal.
 \paragraph{}
-Nótese que solo el sexo, edad, y en el caso de la mujer, si esta está embarazada se han tenido en cuneta para los máximos y los mínimos, el resto de factores se almacenaran en la variable $"$observaciones$"$ en las intancias de las sublases correspondientes al tipo de análisis, para su posterior consideración por el personal cualificado.
+Nótese que solo el sexo, edad, y en el caso de la mujer, si esta está embarazada se han tenido en cuenta para los máximos y los mínimos. El resto de factores se almacenarán en la variable $"$observaciones$"$ en las instancias de las subclases correspondientes al tipo de análisis, para su posterior consideración por el personal cualificado.
 \pagebreak
 
 \section{Diagrama de clases de personas.}
 \paragraph{}
-Hay tres tipos de personas, el paciente al que se realiza el análisis, el Doctor que receta el análisis el analista que lleva a cabo el análisis en el laboratorio.
+Hay tres tipos de personas: el paciente al que se realiza el análisis, el doctor que receta el análisis y el analista que lleva a cabo el análisis en el laboratorio.
 \paragraph{}
-El diagrama de abstracción seria el siguiente:
+El diagrama de abstracción sería el siguiente:
 \vspace{0.5cm}
 \begin{center}
 	\begin{figure}[hbt]
@@ -157,27 +156,33 @@ El diagrama de abstracción seria el siguiente:
 	\end{figure}
 \end{center}
 \paragraph{}
-Para que un análisis sea realizado este debe de ser mandado por un médico a excepción de casos particulares.
+Para que un análisis sea realizado éste debe ser mandado por un médico salvo en algunos casos excepcionales.
+\subsection{Atributos de las personas}
+
 \paragraph{}
-Las atributos que se guardarán de las distintas clases serán las siguientes:
+Los atributos que se guardarán de las distintas clases serán los siguientes:
 \begin{itemize}
-	\item {\bf Paciente}: \underline{numero de la seguridad social}, sexo, fecha de nacimiento y lugar de nacimiento.
-	\item {\bf Doctor}: \underline{dni}, fecha de nacimiento y campo o especialidad.
+	\item {\bf Paciente}: \underline{Número de la Seguridad Social}, sexo, fecha de nacimiento y lugar de nacimiento.
+	\item {\bf Doctor}: \underline{Número de colegiado}, fecha de nacimiento y campo o especialidad.
 	\item {\bf Analista}: \underline{dni}, fecha de nacimiento, campo o especialidad y especialidad como analista.
 \end{itemize}
+\pagebreak
+\subsection{Restricciones de dominio de la información}
+
 \paragraph{}
-Tanto los médicos como los analistas tendrán estar titulados con las titulaciones correspondientes a la tarea desempeñada.
+Tanto los doctores como los analistas tendrán estar titulados con las titulaciones correspondientes a la tarea desempeñada.
 \paragraph{}
-Las claves principales estan marcadas con subrayado en los atributos de las clases Paciente, Doctor Y Analista
+Las claves principales están marcadas con subrayado en los atributos de las clases Paciente, Doctor y Analista
 \paragraph{}
-Cada análisis tiene un id único, este es generado automáticamente y es incremental, además, el análisis guarda de quien es el análisis (paciente), quien lo ha realizado (analista) y quien lo ha encargado (el doctor).
+Cada análisis tiene un id único, éste es generado automáticamente y es incremental, además, el análisis guarda de quién sea el análisis (paciente), quién lo haya realizado (analista) y quien lo haya encargado (el doctor).
+\subsection{Relaciones Persona-Análisis}
 \paragraph{}
-Referenciando a la figura ~\ref{fig:diagramaanalisis}, y figura ~\ref{fig:diagramapersonas} la multiplicidad de la relacción entre analisis y las diferentes especializaciones de la entidad persona, son las siguientes:
+Referenciando a la figura ~\ref{fig:diagramaanalisis}, y figura ~\ref{fig:diagramapersonas} la multiplicidad de la relación entre análisis y las diferentes especializaciones de la entidad persona, son las siguientes:
 \paragraph{Paciente-Análisis}
-Devido a que un paciente podra efectuar multiples análisis, la relacción sera de 1:N, ya que un análisis será solo de un cliente.
+Debido a que un paciente podrá efectuar múltiples análisis, la relación sera de 1:N, ya que un análisis será solo de un cliente.
 \paragraph{Doctor-Análisis}
 De igual manera que la relación Paciente-Análisis, esta re-
-lacción tiene la multiplicidad 1:N, ya que un análisis solo puede como máximo
+lación tiene la multiplicidad 1:N, ya que un análisis solo puede como máximo
 ser recetado por un doctor, pero en ciertos escenarios, no hace falta un doctor
 que lo recete.
 
@@ -185,25 +190,26 @@ que lo recete.
  Con multiplicidad N:N, ya que un análisis puede ser lle-
 vado a cabo por varios analistas.
 
+\pagebreak
 \section{Máquinas.}
-En el laboratorio existen tres tipos de maquinas que pueden escribir o leer de un análisis, estas están representadas en el siguiente diagrama:
+En el laboratorio existen varios tipos de máquinas que pueden escribir o leer información de un análisis automáticamente:
 % \vspace{0.5cm}\\
 % \includegraphics[width=\textwidth]{img/maquinas.png}
 \paragraph{}
-Como se puede observar, de la entidad maquina, se especializan tres clases:
+Como se puede observar, de la entidad máquina, se especializan los distintos tipos de analizadoras que existen en el dominio del problema, en nuestro ejemplo hay tres tipos:
 \begin{itemize}
-	\item {\bf Análizadora} Maquina encargada de obtener automáticamente los análisis de las muestras del paciente, a su vez, esta se especializa en tres subclases, una por cada tipo de análisis:
+	\item {\bf Analizadora}: Máquina encargada de obtener automáticamente los análisis de las muestras del paciente, a su vez, ésta se especializa en tres subclases, una por cada tipo de análisis en nuestro ejemplo:
 	\begin{itemize}
-		\item {\it Análizadora de sangre}.
-		\item {\it Análizadora de saliva}.
-		\item {\it Análizadora de orina}.
+		\item {\it Analizadora de sangre}.
+		\item {\it Analizadora de saliva}.
+		\item {\it Analizadora de orina}.
 	\end{itemize}
-	Estas maquinas pueden obtener ciertos resultados por ellas mismas sin intervención humana mas allá del posicionamiento de las muestras.
-	\item {\bf Impresora}: Encargada de imprimir todo documento que se le mande.
-	\item {\bf Terminal}: Debido a que no todas las mediciones podrán hacerse automáticamente por las máquinas, algunas muestras tendrán que ser analizadas por los analistas, estos entonces podrán introducir los resultados a travez de una terminal en el laboratorio.
+	Estas máquinas pueden obtener ciertos resultados por ellas mismas sin intervención humana mas allá del posicionamiento de las muestras.
+	\item {\bf Servicio de impresión}: Encargada de procesar e imprimir todo documento que se le mande.
+	\item {\bf Terminal}: Debido a que no todas las mediciones podrán hacerse automáticamente por las máquinas, algunas muestras tendrán que ser analizadas por los analistas, éstos entonces podrán introducir los resultados a través de una terminal en el laboratorio.
 \end{itemize}
 \paragraph{}
-Una vez completado el análisis, se mandara un documento generado a partir de los datos del análisis al servidor de impresión para su posterior recogida por el doctor que la encargo.\\
+Una vez completado el análisis, se mandará un documento generado a partir de los datos del análisis al servicio de impresión para su posterior recogida por el doctor que lo encargo.\\
 
 % \pagebreak
 % \section{Vista general.}
