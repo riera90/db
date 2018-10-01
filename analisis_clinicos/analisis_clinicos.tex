@@ -47,13 +47,17 @@ Dado que aún no han sido impartidos los conceptos sobre el modelo conceptual En
 
 \section{Análisis del problema.}
 \paragraph{}
-El problema está planteado en el dominio de los análisis clínicos con métodos actuales. Estos se centran en varios factores los cuales varían según la edad, sexo y enfermedades del cliente.
+El problema está planteado en el dominio de los análisis clínicos con métodos actuales. La interpretación de éstos depende de varios factores como la edad, sexo y enfermedades del cliente.
+% El problema está planteado en el dominio de los análisis clínicos con métodos actuales. Estos se centran en varios factores los cuales varían según la edad, sexo y enfermedades del cliente.
 \paragraph{}
-Estos factores supondrán en gran parte la complejidad de la base de datos, específicamente el dominio de información de la base de datos en los cuales tendrán que estar representadas en estas restricciones.
+La complejidad de la base de datos dependerá en gran parte de estos factores. Esta complejidad se reflejará especialmente en el diseño del dominio de la información de la base de datos en cuyas restricciones tendrán que estar representados estos factores.
+
+% Estos factores supondrán en gran parte la complejidad de la base de datos, específicamente el dominio de información de la base de datos en los cuales tendrán que estar representadas en estas restricciones.
+
 \section{Factores a tener en cuenta.}
 \label{section:factoresatenerencuenta}
 \paragraph{}
-Los factores que más influyen en un análisis clínico son los siguientes:
+Los factores que más influyen en la interpretación de un análisis clínico son los siguientes:
 \begin{itemize}
 	\item Edad.
 	\item Sexo.
@@ -83,14 +87,23 @@ Para poder implementar todas las restricciones de dominio, tendremos que crear e
 	\label{fig:diagramaanalisis}
 \end{figure}
 \paragraph{}
-Para poder representar todas las restricciones de dominio que presentan los análisis, tendremos que efectuar restricciones de dominio de la información tanto en sexo, edad, tipo de análisis y, finalmente, validez del análisis.
+Para poder representar todas las restricciones de dominio que presentan los análisis, tendremos que efectuar restricciones de dominio de la información tanto en sexo, como edad y tipo de análisis.
 \paragraph{}
 A esto le tenemos que añadir, en el caso de la mujer, el posible estado de embarazo a partir de la adolescencia.
 \subsection{Atributos de los análisis}
+\begin{itemize}
+	\item {\bf Análisis}: \underline{Numero de extracción}, Fecha de la extracción, Umbrales de normalidad, Valores obtenidos, paciente, doctor, analistas, observaciones(*)
+\end{itemize}
+
 \paragraph{}
-Cada análisis estará compuesto por diversos atributos, los cuales harán referencia tanto a los valores de las mediciones obtenidas en el análisis del paciente, como a los umbrales de normalidad de dichas mediciones.
-\paragraph{}
-El analista deberá de tener acceso a una serie de factores modificadores de los resultados del análisis como los citados anteriormente en la sección \ref{section:factoresatenerencuenta}. \nameref{section:factoresatenerencuenta}, estos serán almacenados como observaciones para su posterior uso por parte del personal cualificado.
+El analista deberá de tener acceso a una serie de factores modificadores de los resultados del análisis como los citados anteriormente en la sección
+\ref{section:factoresatenerencuenta} (\nameref{section:factoresatenerencuenta}), estos serán almacenados como observaciones para su posterior uso por parte del personal cualificado.
+\vfill
+\begin{flushright}
+	
+	\small
+	(*) Se refiere a los atributos no contemplados por los diagramas de la seción \ref{section:factoresatenerencuenta}
+\end{flushright}
 
 \pagebreak
 \subsection{Restricciones de dominio de la información.}
@@ -100,7 +113,7 @@ Podemos diferenciar entre sexos ya que los umbrales de normalidad en los anális
 
 \subsubsection{Restricciones de dominio según la edad.}
 \paragraph{}
-Debido a los diferentes máximos y mínimos entre las distintas franjas de edades, haremos una distinción entre los distintos grupos de edades diferentes. Una posible clasificación podría ser la siguiente:
+Debido a los diferentes rangos de valores aceptables en las distintas franjas de edades, haremos una distinción entre los distintos grupos de edades diferentes. Una posible clasificación sería la siguiente:
 \begin{table}[hbt]
 		\begin{center}
 		\begin{tabular}{|c|c|}\hline
@@ -123,28 +136,28 @@ Según la naturaleza del análisis podemos distinguir entre varios tipos, en est
 \end{itemize}
 \subsubsection{Restricciones de dominio según el embarazo.}
 \paragraph{}
-En el caso de la mujer, habrá un nivel extra de especialización, uno para el estado no embarazada y otro para el estado embarazada. La entidad análisis se especificará en uno u otro dependiendo del estado de la mujer en el momento del análisis, ya que éste afectará en gran medida a muchos umbrales de normalidad.
+En el caso de la mujer adolescente o la mujer adulta, habrá un nivel extra de especialización, uno para el estado no embarazada y otro para el estado embarazada. La entidad análisis se especificará en uno u otro dependiendo del estado de la mujer en el momento del análisis, ya que éste afectará en gran medida a muchos umbrales de normalidad.
 \pagebreak
 \subsection{Consideraciones según la normalidad del análisis}
 \paragraph{}
-En lo que respecta a la normalidad del análisis, estos podrán ser clasificados como $"$normales$"$ o $"$anomaloes$"$.
+En lo que respecta a la normalidad del análisis, estos podrán ser clasificados como $"$normales$"$ o $"$anómalos$"$.
 \paragraph{}
-Los análisis normales son todos aquellos cuyas mediciones se encuentran en el umbral de aceptación de la subclase a la que instancia, si esto es cierto para todas las mediciones de susodicho análisis, el análisis sera considerado como normal.
+Las mediciones normales son todas aquellas cuyos valores se encuentran en el umbral de aceptación de la subclase a la que instancian, si esto es cierto para todos los valores del susodicho análisis, éste sera considerado como normal.
 \paragraph{}
-En el caso de que una o varias mediciones se salgan del umbral de aceptación de dicha subclase, éste será clasificado como $"$Análisis Anomalo$"$.
+En el caso de que una o varias mediciones se salgan del umbral de aceptación de dicha subclase, éste será clasificado como $"$Análisis Anómalo$"$.
 \paragraph{}
 Los umbrales serán definidos por un especialista en la materia debido a su alta complejidad.
 \paragraph{}
-Si el análisis es clasificado como anomalo, éste será marcado como tal en un sitio visible del impreso.
+Si el análisis es clasificado como anómalo, éste será marcado como tal en un sitio visible del impreso.
 \paragraph{}
 Además, antes de la impresión, se evaluará si la medición está entre los parámetros máximos y mínimos, si no lo está, la medición se marcará en un color distinto al del texto normal.
 \paragraph{}
-Nótese que solo el sexo, edad, y en el caso de la mujer, si esta está embarazada se han tenido en cuenta para los máximos y los mínimos. El resto de factores se almacenarán en la variable $"$observaciones$"$ en las instancias de las subclases correspondientes al tipo de análisis, para su posterior consideración por el personal cualificado.
+Nótese que solo el sexo, edad, y en el caso de la mujer, si esta está embarazada se han tenido en cuenta para los máximos y los mínimos. El resto de factores se almacenarán en el atributo $"$observaciones$"$ en las instancias de las subclases correspondientes al tipo de análisis, para su posterior consideración por el personal cualificado.
 \pagebreak
 
 \section{Diagrama de clases de personas.}
 \paragraph{}
-Hay tres tipos de personas: el paciente al que se realiza el análisis, el doctor que receta el análisis y el analista que lleva a cabo el análisis en el laboratorio.
+En el análisis participan tres agentes: el paciente al que se realiza el análisis, el doctor que receta el análisis y el analista que lleva a cabo el análisis en el laboratorio.
 \paragraph{}
 El diagrama de abstracción sería el siguiente:
 \vspace{0.5cm}
@@ -162,19 +175,19 @@ Para que un análisis sea realizado éste debe ser mandado por un médico salvo 
 \paragraph{}
 Los atributos que se guardarán de las distintas clases serán los siguientes:
 \begin{itemize}
-	\item {\bf Paciente}: \underline{Número de la Seguridad Social}, sexo, fecha de nacimiento y lugar de nacimiento.
-	\item {\bf Doctor}: \underline{Número de colegiado}, fecha de nacimiento y campo o especialidad.
-	\item {\bf Analista}: \underline{dni}, fecha de nacimiento, campo o especialidad y especialidad como analista.
+	\item {\bf Paciente}: \underline{Número de la Seguridad Social}, historial cliínico, sexo, fecha de nacimiento y lugar de nacimiento.
+	\item {\bf Doctor}: \underline{Número de colegiado} y campo o especialidad.
+	\item {\bf Analista}: \underline{dni}, campo o especialidad y especialidad como analista.
 \end{itemize}
 \pagebreak
 \subsection{Restricciones de dominio de la información}
 
 \paragraph{}
-Tanto los doctores como los analistas tendrán estar titulados con las titulaciones correspondientes a la tarea desempeñada.
+Tanto los doctores como los analistas tendrán estar acreditados con las titulaciones correspondientes a la tarea desempeñada.
 \paragraph{}
 Las claves principales están marcadas con subrayado en los atributos de las clases Paciente, Doctor y Analista
 \paragraph{}
-Cada análisis tiene un id único, éste es generado automáticamente y es incremental, además, el análisis guarda de quién sea el análisis (paciente), quién lo haya realizado (analista) y quien lo haya encargado (el doctor).
+Cada análisis tiene un id único (número de análisis), éste es generado automáticamente y es incremental, además, el análisis guarda de quién es (paciente), quién lo ha realizado (analista) y quien lo ha encargado (el doctor).
 \subsection{Relaciones Persona-Análisis}
 \paragraph{}
 Referenciando a la figura ~\ref{fig:diagramaanalisis}, y figura ~\ref{fig:diagramapersonas} la multiplicidad de la relación entre análisis y las diferentes especializaciones de la entidad persona, son las siguientes:
@@ -191,12 +204,12 @@ que lo recete.
 vado a cabo por varios analistas.
 
 \pagebreak
-\section{Máquinas.}
+\section{Consideraciones sobre Máquinas.}
 En el laboratorio existen varios tipos de máquinas que pueden escribir o leer información de un análisis automáticamente:
 % \vspace{0.5cm}\\
 % \includegraphics[width=\textwidth]{img/maquinas.png}
 \paragraph{}
-Como se puede observar, de la entidad máquina, se especializan los distintos tipos de analizadoras que existen en el dominio del problema, en nuestro ejemplo hay tres tipos:
+Como se puede observar, dentro de la entidad máquina, se encuentran los distintos tipos de máqinas que existen en el dominio del problema, en nuestro ejemplo hay tres tipos:
 \begin{itemize}
 	\item {\bf Analizadora}: Máquina encargada de obtener automáticamente los análisis de las muestras del paciente, a su vez, ésta se especializa en tres subclases, una por cada tipo de análisis en nuestro ejemplo:
 	\begin{itemize}
