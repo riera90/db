@@ -75,30 +75,23 @@ Existe completa libertad para que consideren los atributos o características de
 {\bf excursiones} (\underline{IDe}, coste, fecha, distancia)
 
 \paragraph{}
-{\bf planetasIda} (\underline{IDe}, \underline{ordenIda}, planeta)\\
+{\bf Parada} (\underline{IDe}, \underline{Planeta}, \underline{Ida/vuelta})\\
 \tab FK(planetasIda.IDe=excursiones.IDe)\\
 \tab FK(planetasIda.planeta=planetas.IDp)\\
-\tab constraint(isMoreThanTheRest)
 
-\paragraph{}
-{\bf planetasVuelta} (\underline{IDe}, \underline{ordenVuelta}, planeta)\\
-\tab FK(planetasIda.IDe=excursiones.IDe)\\
-\tab FK(planetasIda.planeta=planetas.IDp)\\
-\tab constraint(isLessThanTheRest)
+% \pagebreak
 
-\pagebreak
-
-\section{Restricciones}
-Sentencias sql las cuales garantizaran la consistencia de la base de datos
-\subsection{isMoreThanTheRest}
-\begin{scriptsize}
-  \lstinputlisting[language=SQL]{scripts/isMoreThanTheRest.sql}
-\end{scriptsize}
-\pagebreak
-\subsection{isLessThanTheRest}
-\begin{scriptsize}
-  \lstinputlisting[language=SQL]{scripts/isLessThanTheRest.sql}
-\end{scriptsize}
+% \section{Restricciones}
+% Sentencias sql las cuales garantizaran la consistencia de la base de datos
+% \subsection{isMoreThanTheRest}
+% \begin{scriptsize}
+%   \lstinputlisting[language=SQL]{scripts/isMoreThanTheRest.sql}
+% \end{scriptsize}
+% \pagebreak
+% \subsection{isLessThanTheRest}
+% \begin{scriptsize}
+%   \lstinputlisting[language=SQL]{scripts/isLessThanTheRest.sql}
+% \end{scriptsize}
 
 
 
