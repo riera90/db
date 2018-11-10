@@ -1,0 +1,147 @@
+\documentclass[a4paper,10pt]{article}
+\usepackage[utf8]{inputenc} %Codificacion utf-8
+\usepackage{graphicx}
+\usepackage{enumerate}
+\usepackage{fancyhdr}
+\usepackage{hyperref}
+\usepackage{tikz}     % graphs!
+\usepackage{listings} % code!
+\usepackage{multirow} % Required for multirows
+\usepackage[spanish, activeacute]{babel} %Definir idioma español
+% \usepackage[margin=3cm]{geometry}
+\hypersetup{
+    colorlinks=true,
+    linkcolor=black,
+    filecolor=magenta,
+    urlcolor=cyan,
+}
+
+\pagestyle{fancy}
+
+\lhead{Alquiler de vehículos}
+\rfoot{Página \thepage}
+\lfoot{Diego Rodríguez Riera}
+\cfoot{Bases de Datos}
+\newcommand\tab[1][1cm]{\hspace*{#1}}
+
+
+\title{Alquiler de vehículos}
+\author{Diego Rodríguez Riera}
+\date{\today}
+
+\begin{document}
+
+\maketitle
+\pagebreak
+\tableofcontents
+\pagebreak
+
+\section{Definición del problema}
+\paragraph{}
+Una empresa de alquiler de vehículos desea conocer en todo momento el estado de su flota. La empresa tiene diversas oficinas repartidas por todo el territorio español. Cada
+oficina se identifica por un código único y se caracteriza por la ciudad en la que se encuentra y su dirección completa (calle, número y código postal) y teléfono.
+
+\paragraph{}
+En cada oficina hay disponible un conjunto de vehículos, de los cuales se conoce su matrícula, el grupo al que pertenece: A, B, C, D, E, F o G (depende del tipo y tamaño del vehículo), la marca, el modelo, el número de puertas, el número de plazas, la capacidad del maletero y el permiso de circulación exigido para el alquiler.
+\paragraph{}
+Para llevar el control del estado de cada vehículo, la empresa mantiene un registro de todos los alquileres que ha realizado, indicando para cada uno de ellos el nombre del
+conductor, su DNI, su dirección, un teléfono de contacto y un número de tarjeta de crédito sobre la que realizar los cargos correspondientes. Además de esta información de los
+clientes, para cada alquiler se almacena su duración (en días), el tipo de seguro contratado, los kilómetros realizados y el precio total.
+
+\paragraph{}
+Realizar el modelo conceptual y relacional correspondiente a este problema.
+
+\pagebreak
+
+
+\section{Análisis del problema}
+
+\paragraph{}
+Supungamos que:
+
+\paragraph{}
+Un alquiler está compuesto por uno o varios vehiculos, a cargo de una persona o cliente y en una ventana de tiempo, la cual no se deverá prolongar, pero podrá ser acortada en cualquier momento devolviendo el/los vehiculos si el cliente lo desea.
+
+\paragraph{}
+Un Vehiculo podrá tener varios estados, En una oficina o en alquiler.
+
+\paragraph{}
+Si un cliente alquila en el mismo día en dos oficinas, los contratos se tratan como diferentes.
+
+\paragraph{}
+El cliente podrá alquilar vehiculos de cualquier oficina en cualquier oficina.
+
+\paragraph{}
+El cliente podrá devolver el/los vehiculo/s en cualquier oficina.
+
+
+
+\pagebreak
+
+\section{Modelo Entidad-Relacción}
+\vspace{1cm}
+\begin{centering}
+  \hspace{-1.5cm}
+  \scalebox{0.6}{\input{schemas/er}}
+\end{centering}
+
+
+\pagebreak
+
+\section{Modelo Relacional}
+\paragraph{}
+{\bf Clientes} (\underline{DNI}, Nombre, Dirección, Teléfono, Targeta-de-crédito)\\
+  \tab Fields Nombre, Dirección, Teléfono, and Targeta-de-crédito\\
+  \tab\tab are not nullable
+
+\paragraph{}
+{\bf Oficinas} (\underline{Codigo}, Teléfono, Cuidad, Dirección)\\
+  \tab Fields Teléfono, Cuidad, Dirección are not nullable
+
+\paragraph{}
+{\bf Marca} (\underline{Marca})
+
+\paragraph{}
+{\bf Modelo} (\underline{Modelo, Marca*}, tipo)\\
+  \tab FK(Marca=Marca.Marca)\\
+  \tab Field tipo is not nullable
+  
+\paragraph{}
+{\bf Flota} (\underline{Matrícula}, Modelo*, Marca*, Oficina*)\\
+  \tab FK(Modelo=Modelo.Modelo) not null\\
+  \tab FK(Marca=Marca.Marca) not null\\
+  \tab FK(Oficina=Oficina.Código) not null
+
+
+\paragraph{}
+{\bf Catálogo-seguros} (\underline{Seguro})
+
+\paragraph{}
+{\bf Vehiculo} (\underline{Oficina*, Cliente*, Fecha-inicio*, Matrícula*}, KM-realizados, \\\tab\tab Precio, Seguro*)\\
+  \tab FK(Oficina=Oficina.Código)\\
+  \tab FK(Cliente=Clientes.DNI)\\
+  \tab FK(Fecha-inicio=alquileres.Fecha-inicio)\\
+  \tab FK(Matrícula=Flota.Matrícula)\\
+  \tab FK(Seguro=Catálogo-seguros.Seguro) not null\\
+  \tab Field KM-realizados is nullable\\
+  \tab Field Precio is not nullable
+
+\paragraph{}
+{\bf Alquileres} (\underline{Oficina*, Cliente*, Fecha-inicio}, Duración-Máxima, Duración)\\
+  \tab FK(Oficina=Oficinas.Código)\\
+  \tab FK(Cliente=Clientes.DNI)\\
+  \tab Field Ducarión is nullable\\
+  \tab Field Duración-Máxima is not nullable
+w
+\section{Restricciones}
+Si se quiere que solo se puedan realizar alquileres de dehiculos de la oficina en la que se realiza el alquiler, el siguiente constraint deverá de ser añadido en la table alquileres.
+\begin{scriptsize}
+  \lstinputlisting[language=SQL]{scripts/alquileres.sql}
+\end{scriptsize}
+
+
+
+
+
+
+\end{document}
