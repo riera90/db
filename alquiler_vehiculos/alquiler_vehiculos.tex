@@ -132,11 +132,19 @@ El cliente podrá devolver el/los vehiculo/s en cualquier oficina.
   \tab FK(Cliente=Clientes.DNI)\\
   \tab Field Ducarión is nullable\\
   \tab Field Duración-Máxima is not nullable
-w
+\pagebreak
+
 \section{Restricciones}
+\subsection{Alguiler de vehiculo de solo una oficina}
 Si se quiere que solo se puedan realizar alquileres de dehiculos de la oficina en la que se realiza el alquiler, el siguiente constraint deverá de ser añadido en la table alquileres.
 \begin{scriptsize}
   \lstinputlisting[language=SQL]{scripts/alquileres.sql}
+\end{scriptsize}
+
+\subsection{Restricción del tipo de vehículo}
+Para los tipos de vehiculos necesitaremos el siguiente constraint en la inserción o modificación de la tabla de Modelo
+\begin{scriptsize}
+  \lstinputlisting[language=SQL]{scripts/tipo.sql}
 \end{scriptsize}
 
 

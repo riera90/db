@@ -1,0 +1,1 @@
+constraint(check(tipo in ('A','B','C','D','F','G')))

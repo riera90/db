@@ -1,5 +1,8 @@
-chech
-(
-  Matricula in
-  select Flota.matricula from Flota where Flota.Oficina=Oficina
+constraint(
+  check(
+    Matricula in
+      select Flota.matricula 
+        from Flota
+        where Flota.Oficina=Oficina
+  )
 )
