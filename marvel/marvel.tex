@@ -1,0 +1,116 @@
+\documentclass[a4paper,10pt]{article}
+\usepackage[utf8]{inputenc} %Codificacion utf-8
+\usepackage{graphicx}
+\usepackage{enumerate}
+\usepackage{fancyhdr}
+\usepackage{hyperref}
+\usepackage{tikz}     % graphs!
+\usepackage{listings} % code!
+\usepackage{multirow} % Required for multirows
+\usepackage[spanish, activeacute]{babel} %Definir idioma español
+% \usepackage[margin=3cm]{geometry}
+\hypersetup{
+    colorlinks=true,
+    linkcolor=black,
+    filecolor=magenta,
+    urlcolor=cyan,
+}
+
+\pagestyle{fancy}
+
+\lhead{Marvel}
+\rfoot{Página \thepage}
+\lfoot{Diego Rodríguez Riera}
+\cfoot{Bases de Datos}
+\newcommand\tab[1][1cm]{\hspace*{#1}}
+
+
+\title{Marvel}
+\author{Diego Rodríguez Riera}
+\date{\today}
+
+\begin{document}
+
+\maketitle
+\pagebreak
+\tableofcontents
+\pagebreak
+
+\section{Definición del problema}
+Unos  frikis  de  Marvel  desean  estudiar  el  comportamiento  de  los  superhéroes  para  poder  predecir  el  resultado  de  los  combates  entre  ellos.  Para  ello,  almacenarán  para  los  superhéroes  y  supervillanos información acerca de su nombre, los poderes que disponen y el nivel de ese poder en  un intervalo de 0 - 100.
+\paragraph{}
+Cada vez que hay un combate entre superhéroes y supervillanos desean almacenar el efecto  que  produce  en  cada  uno  de  ellos  los  lances. Así,  para  cada  lance  desean  conocer  cuándo  se  produce, entre qué par de actores y el efecto sobre los diferentes poderes que tienen esos actores.
+\paragraph{}
+Por  otra  parte,  los  supervillanos  y  superhéroes  pueden  recuperar  poderes  con  el  tiempo  (si  no  están  en  una  lucha),  por  lo  que  es  de  interés  conocer  cada  cuanto  tiempo,  la  cantidad  o  porcentaje de poder que pueden recuperar, y para cada poder tienen un límite mínimo que una vez  sobrepasado pierden el combate.
+\paragraph{}
+
+Diseñar el modelo relacional  de la base  de datos.
+
+\section{Análisis del problema}
+
+Necesitamos almacenar los dirferentes movimientos de varios personajes, los cuales forman una "pelea", estos son los personajes de nuestro juego, estos tienen un "rol" ya sea villano o heroe, tambien tienen un nombre, un nivel maximo de poder, un novel de poder actual, una serie de habilidades con un nivel, y un nivel de poder o vida actual.
+
+\paragraph{}
+Por otra parte, tenemos los enfrentamientos, que estan formados por una serie de movimientos, en los que se ven involucrados como minimo un actor y un receptor del ataque o habilidad, el cual tendrá una penalización.
+
+
+\pagebreak
+
+
+\section{Modelo Entidad-Relacción}
+\scalebox{0.5}{\input{schemas/er}}
+
+
+\pagebreak
+
+\section{Modelo Relacional}
+
+\paragraph{}
+{\bf Personaje} (\underline{Nombre}, Rol, Habilidad, LvlMax, LvlActual, \\\tab\tab LvlRecuperacionHora)
+
+\paragraph{}
+{\bf Movimiento} (\underline{Hora, Fecha*})\\
+\tab FK(Fecha=Pelea.Fecha)
+
+\paragraph{}
+{\bf MovAtack} (\underline{Hora*, Fecha*, Personaje*}, Habilidad*)\\
+\tab FK(Hora=Movimiento.Hora)\\
+\tab FK(Fecha=Pelea.Fecha)\\
+\tab FK(Personaje=Personaje.Nombre)\\
+\tab FK(Habilidad=Habilidad.Nombre)\\
+\tab trigger(HabilityIsAvailable)
+
+\paragraph{}
+{\bf MovDef} (\underline{Hora*, Fecha*, Personaje*}, Habilidad*)\\
+\tab FK(Hora=Movimiento.Hora)\\
+\tab FK(Fecha=Pelea.Fecha)\\
+\tab FK(Personaje=Personaje.Nombre)\\
+\tab FK(Habilidad=Habilidad.Nombre)\\
+\tab trigger(HabilityIsAvailable)
+
+\paragraph{}
+{\bf Pelea} (\underline{Fecha})
+
+\paragraph{}
+{\bf Habilidad} (\underline{Nombre}, Resistencia, Daño, Tipo)
+
+\paragraph{}
+{\bf Personage-Habilidad} (\underline{Personaje*, Habilidad*})\\
+\tab FK(Personaje=Personaje.Nombre)\\
+\tab FK(Habilidad=Habilidad.Nombre)
+
+\pagebreak
+
+\section{Restricciones}
+Sentencias sql las cuales garantizaran la consistencia de la base de datos
+\subsection{HabilityIsAvailable}
+\begin{scriptsize}
+  \lstinputlisting[language=SQL]{scripts/HabilityIsAvailable.sql}
+\end{scriptsize}
+
+
+
+
+
+
+\end{document}
