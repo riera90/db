@@ -4,6 +4,8 @@
 \usepackage{enumerate}
 \usepackage{fancyhdr}
 \usepackage{hyperref}
+\usepackage{tikz}     % graphs!
+\usepackage{listings} % code!
 \usepackage{multirow} % Required for multirows
 \usepackage[spanish, activeacute]{babel} %Definir idioma español
 % \usepackage[margin=3cm]{geometry}
@@ -13,15 +15,16 @@
     filecolor=magenta,
     urlcolor=cyan,
 }
+
 \pagestyle{fancy}
 
-\lhead{Análisis clínicos III}
+\lhead{Análisis clínicos VI}
 \rfoot{Página \thepage}
 \lfoot{Diego Rodríguez Riera}
 \cfoot{Bases de Datos}
 \newcommand\tab[1][1cm]{\hspace*{#1}}
 
-\title{Análisis clínicos III\\{\small Revisión 3}}
+\title{Análisis clínicos\\{\small Revision VI}}
 \author{Diego Rodríguez Riera}
 \date{\today}
 
@@ -82,7 +85,7 @@ Albúmina, Densidad, pH, Glucosa, Proteínas, Cetonas, Urobilinógeno y bilirrub
 Los análisis tienen como objetivo la obtencion de ciertos parametros medidos a partir de una o varias extracciones de muestras de un paciente.
 
 \paragraph{}
-Dichos parámetros los pedirá el doctor de entrew una lista de parametros posibles (puestos por la empresa anañizadora).
+Dichos parámetros los pedirá el doctor de entre una lista de parametros posibles (puestos por la empresa anañizadora).
 
 \paragraph{}
 Los parámetros tendrán una serie de tareas o instrucciones por las cuales se pueden obtener los valores de dichos parametros.
@@ -94,7 +97,7 @@ Las tareas o instrucciones se pueden a su vez, dividir en subtareas hasta que es
 Notese que no todas las tareas tiene  un parametro como resultado, y que una tarea o instrucciones, tiene como resultado un único valor de un parametro como máximo.
 
 \paragraph{}
-Dichos valores forman, en su agregación,º el análisis del paciente.
+Dichos valores forman, en su agregación, el análisis del paciente.
 
 
 
@@ -103,7 +106,7 @@ Dichos valores forman, en su agregación,º el análisis del paciente.
 Para poder implementar todas las restricciones de dominio, tendremos que crear el siguiente árbol de generalización para los análisis:\\
 % \vspace{0.7cm}\\
 \begin{figure}[hbt]
-	\includegraphics[width=\textwidth]{diagrams/img/analisis.png}
+	\scalebox{0.39}{\input{diagrams/clases_analisis}}
 	\caption{Diagrama de clases de análisis.}
 	\label{fig:diagramaanalisis}
 \end{figure}
@@ -184,7 +187,9 @@ El diagrama de abstracción sería el siguiente:
 \vspace{0.5cm}
 \begin{center}
 	\begin{figure}[hbt]
-		\includegraphics[width=\textwidth]{diagrams/img/personas.png}
+		\begin{center}
+			\scalebox{.5}{\input{diagrams/personas}}
+		\end{center}
 		\caption{Diagrama de clases de personas.}
 		\label{fig:diagramapersonas}
 	\end{figure}
@@ -242,17 +247,21 @@ Como se puede observar, dentro de la entidad máquina, se encuentran los distint
 	\item {\bf Servicio de impresión}: Encargada de procesar e imprimir todo documento que se le mande.
 	\item {\bf Terminal}: Debido a que no todas las mediciones podrán hacerse automáticamente por las máquinas, algunas muestras tendrán que ser analizadas por los analistas, éstos entonces podrán introducir los resultados a través de una terminal en el laboratorio.
 \end{itemize}
+
 \paragraph{}
 Una vez completado el análisis, se mandará un documento generado a partir de los datos del análisis al servicio de impresión para su posterior recogida por el doctor que lo encargo.\\
 
-% \pagebreak
-% \section{Vista general.}
-% \paragraph{}
-% Gran parte del diagrama de análisis ha sido omitido.\\
-% \vspace{0.7cm}\\
-% \includegraphics[width=\textwidth]{diagrams/img/all.png}
+\section{Diagrama Entidad-Relacción}
 
-
+\begin{center}
+	\begin{figure}[hbt]
+		\begin{center}
+			\scalebox{1}{\input{diagrams/er}}
+		\end{center}
+		\caption{Diagrama Entidad Relacción.}
+		\label{fig:diagramaER}
+	\end{figure}
+\end{center}
 
 
 %%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%
