@@ -85,13 +85,25 @@ Albúmina, Densidad, pH, Glucosa, Proteínas, Cetonas, Urobilinógeno y bilirrub
 Los análisis tienen como objetivo la obtencion de ciertos parametros medidos a partir de una o varias extracciones de muestras de un paciente.
 
 \paragraph{}
-Dichos parámetros los pedirá el doctor de entre una lista de parametros posibles (puestos por la empresa anañizadora).
+Dichos parámetros los pedirá el doctor de entre una lista de parametros.
 
 \paragraph{}
 Los parámetros tendrán una serie de tareas o instrucciones por las cuales se pueden obtener los valores de dichos parametros.
 
 \paragraph{}
+Los parámetros pueden ser expresados en una o varias unidades de medida posibles.
+
+\paragraph{}
+Los parametros tienen una unidad de medida predeterminada.
+
+\paragraph{}
 Las tareas o instrucciones se pueden a su vez, dividir en subtareas hasta que esta sea atómica, es decir, que sea absurda segur dividiendola ya que esta sea facilmente realizable por un analista en un tiempo razonable.
+
+\paragraph{}
+Las tareas o instrucciones podran depender de otras tareas, que tendran que ser ejecutadas antes de dicha tarea.
+
+\paragraph{}
+Algunos parámetros (si son requeridos) son calculados automaticamente cuando se dispongan de los suficientes datos del paciente.
 
 \paragraph{}
 Notese que no todas las tareas tiene  un parametro como resultado, y que una tarea o instrucciones, tiene como resultado un único valor de un parametro como máximo.
@@ -99,7 +111,7 @@ Notese que no todas las tareas tiene  un parametro como resultado, y que una tar
 \paragraph{}
 Dichos valores forman, en su agregación, el análisis del paciente.
 
-
+\pagebreak
 
 \section{Diagrama de clases de análisis.}
 \paragraph{}
@@ -114,6 +126,18 @@ Para poder implementar todas las restricciones de dominio, tendremos que crear e
 Para poder representar todas las restricciones de dominio que presentan los análisis, tendremos que efectuar restricciones de dominio de la información tanto en sexo, como edad y tipo de análisis.
 \paragraph{}
 A esto le tenemos que añadir, en el caso de la mujer, el posible estado de embarazo a partir de la adolescencia.
+\paragraph{}
+Para poder tener en cuenta todos estos posibles casos, mantendremos en una tabla los rangos de valores normales de los tipos de Paciente.\\
+\begin{figure}[hbt]
+	\begin{center}
+		\scalebox{0.8}{\input{diagrams/ER_analisis_normales}}
+	\end{center}
+	\caption{Diagrama de normalidad en los análisis.}
+	\label{fig:clases_analisis_normales}
+\end{figure}
+
+\pagebreak
+
 \subsection{Atributos de los análisis}
 \begin{itemize}
 	\item {\bf Análisis}: \underline{Numero de extracción}, Fecha de la extracción, Umbrales de normalidad, Valores obtenidos, paciente, doctor, analistas, observaciones(*)
@@ -122,14 +146,8 @@ A esto le tenemos que añadir, en el caso de la mujer, el posible estado de emba
 \paragraph{}
 El analista deberá de tener acceso a una serie de factores modificadores de los resultados del análisis como los citados anteriormente en la sección
 \ref{section:factoresatenerencuenta} (\nameref{section:factoresatenerencuenta}), estos serán almacenados como observaciones para su posterior uso por parte del personal cualificado.
-\vfill
-\begin{flushright}
-	
-	\small
-	(*) Se refiere a los atributos no contemplados por los diagramas de la seción \ref{section:factoresatenerencuenta}
-\end{flushright}
 
-\pagebreak
+
 \subsection{Restricciones de dominio de la información.}
 \subsubsection{Restricciones de dominio según el sexo.}
 \paragraph{}
@@ -158,10 +176,19 @@ Según la naturaleza del análisis podemos distinguir entre varios tipos, en est
 	\item Análisis de saliva
 	\item Análisis de orina
 \end{itemize}
+\vfill
+\begin{flushright}
+
+	\small
+	(*) Se refiere a los atributos no contemplados por los diagramas de la seción \ref{section:factoresatenerencuenta}
+\end{flushright}
+
+\pagebreak
+
 \subsubsection{Restricciones de dominio según el embarazo.}
 \paragraph{}
 En el caso de la mujer adolescente o la mujer adulta, habrá un nivel extra de especialización, uno para el estado no embarazada y otro para el estado embarazada. La entidad análisis se especificará en uno u otro dependiendo del estado de la mujer en el momento del análisis, ya que éste afectará en gran medida a muchos umbrales de normalidad.
-\pagebreak
+
 \subsection{Consideraciones según la normalidad del análisis}
 \paragraph{}
 En lo que respecta a la normalidad del análisis, estos podrán ser clasificados como $"$normales$"$ o $"$anómalos$"$.
@@ -179,55 +206,55 @@ Además, antes de la impresión, se evaluará si la medición está entre los pa
 Nótese que solo el sexo, edad, y en el caso de la mujer, si esta está embarazada se han tenido en cuenta para los máximos y los mínimos. El resto de factores se almacenarán en el atributo $"$observaciones$"$ en las instancias de las subclases correspondientes al tipo de análisis, para su posterior consideración por el personal cualificado.
 \pagebreak
 
-\section{Diagrama de clases de personas.}
-\paragraph{}
-En el análisis participan tres agentes: el paciente al que se realiza el análisis, el doctor que receta el análisis y el analista que lleva a cabo el análisis en el laboratorio.
-\paragraph{}
-El diagrama de abstracción sería el siguiente:
-\vspace{0.5cm}
-\begin{center}
-	\begin{figure}[hbt]
-		\begin{center}
-			\scalebox{.5}{\input{diagrams/personas}}
-		\end{center}
-		\caption{Diagrama de clases de personas.}
-		\label{fig:diagramapersonas}
-	\end{figure}
-\end{center}
-\paragraph{}
-Para que un análisis sea realizado éste debe ser mandado por un médico salvo en algunos casos excepcionales.
-\subsection{Atributos de las personas}
-
-\paragraph{}
-Los atributos que se guardarán de las distintas clases serán los siguientes:
-\begin{itemize}
-	\item {\bf Paciente}: \underline{Número de la Seguridad Social}, historial cliínico, sexo, fecha de nacimiento y lugar de nacimiento.
-	\item {\bf Doctor}: \underline{Número de colegiado} y campo o especialidad.
-	\item {\bf Analista}: \underline{dni}, campo o especialidad y especialidad como analista.
-\end{itemize}
-\pagebreak
-\subsection{Restricciones de dominio de la información}
-
-\paragraph{}
-Tanto los doctores como los analistas tendrán estar acreditados con las titulaciones correspondientes a la tarea desempeñada.
-\paragraph{}
-Las claves principales están marcadas con subrayado en los atributos de las clases Paciente, Doctor y Analista
-\paragraph{}
-Cada análisis tiene un id único (número de análisis), éste es generado automáticamente y es incremental, además, el análisis guarda de quién es (paciente), quién lo ha realizado (analista) y quien lo ha encargado (el doctor).
-\subsection{Relaciones Persona-Análisis}
-\paragraph{}
-Referenciando a la figura ~\ref{fig:diagramaanalisis}, y figura ~\ref{fig:diagramapersonas} la multiplicidad de la relación entre análisis y las diferentes especializaciones de la entidad persona, son las siguientes:
-\paragraph{Paciente-Análisis}
-Debido a que un paciente podrá efectuar múltiples análisis, la relación sera de 1:N, ya que un análisis será solo de un cliente.
-\paragraph{Doctor-Análisis}
-De igual manera que la relación Paciente-Análisis, esta re-
-lación tiene la multiplicidad 1:N, ya que un análisis solo puede como máximo
-ser recetado por un doctor, pero en ciertos escenarios, no hace falta un doctor
-que lo recete.
-
-\paragraph{Analista-Análisis}
- Con multiplicidad N:N, ya que un análisis puede ser lle-
-vado a cabo por varios analistas.
+% \section{Diagrama de clases de personas.}
+% \paragraph{}
+% Se considerarán dos entidades diferentes, ya que el cliente y el analista no tienen atributos en comun.
+% \paragraph{}
+% El diagrama de abstracción sería el siguiente:
+% \vspace{0.5cm}
+% \begin{center}
+% 	\begin{figure}[hbt]
+% 		\begin{center}
+% 			\scalebox{.5}{\input{diagrams/personas}}
+% 		\end{center}
+% 		\caption{Diagrama de clases de personas.}
+% 		\label{fig:diagramapersonas}
+% 	\end{figure}
+% \end{center}
+% \paragraph{}
+% Para que un análisis sea realizado éste debe ser mandado por un médico salvo en algunos casos excepcionales.
+% \subsection{Atributos de las personas}
+% 
+% \paragraph{}
+% Los atributos que se guardarán de las distintas clases serán los siguientes:
+% \begin{itemize}
+% 	\item {\bf Paciente}: \underline{Número de la Seguridad Social}, historial cliínico, sexo, fecha de nacimiento y lugar de nacimiento.
+% 	\item {\bf Doctor}: \underline{Número de colegiado} y campo o especialidad.
+% 	\item {\bf Analista}: \underline{dni}, campo o especialidad y especialidad como analista.
+% \end{itemize}
+% \pagebreak
+% \subsection{Restricciones de dominio de la información}
+% 
+% \paragraph{}
+% Tanto los doctores como los analistas tendrán estar acreditados con las titulaciones correspondientes a la tarea desempeñada.
+% \paragraph{}
+% Las claves principales están marcadas con subrayado en los atributos de las clases Paciente, Doctor y Analista
+% \paragraph{}
+% Cada análisis tiene un id único (número de análisis), éste es generado automáticamente y es incremental, además, el análisis guarda de quién es (paciente), quién lo ha realizado (analista) y quien lo ha encargado (el doctor).
+% \subsection{Relaciones Persona-Análisis}
+% \paragraph{}
+% Referenciando a la figura ~\ref{fig:diagramaanalisis}, y figura ~\ref{fig:diagramapersonas} la multiplicidad de la relación entre análisis y las diferentes especializaciones de la entidad persona, son las siguientes:
+% \paragraph{Paciente-Análisis}
+% Debido a que un paciente podrá efectuar múltiples análisis, la relación sera de 1:N, ya que un análisis será solo de un cliente.
+% \paragraph{Doctor-Análisis}
+% De igual manera que la relación Paciente-Análisis, esta re-
+% lación tiene la multiplicidad 1:N, ya que un análisis solo puede como máximo
+% ser recetado por un doctor, pero en ciertos escenarios, no hace falta un doctor
+% que lo recete.
+% 
+% \paragraph{Analista-Análisis}
+%  Con multiplicidad N:N, ya que un análisis puede ser lle-
+% vado a cabo por varios analistas.
 
 \pagebreak
 \section{Consideraciones sobre Máquinas.}
@@ -251,17 +278,140 @@ Como se puede observar, dentro de la entidad máquina, se encuentran los distint
 \paragraph{}
 Una vez completado el análisis, se mandará un documento generado a partir de los datos del análisis al servicio de impresión para su posterior recogida por el doctor que lo encargo.\\
 
-\section{Diagrama Entidad-Relacción}
+\pagebreak
 
+\section{Diagrama Entidad-Relacción}
 \begin{center}
 	\begin{figure}[hbt]
 		\begin{center}
-			\scalebox{1}{\input{diagrams/er}}
+			\scalebox{.6}{
+				\hspace{-1.7cm}
+				\input{diagrams/er}
+			}
 		\end{center}
 		\caption{Diagrama Entidad Relacción.}
 		\label{fig:diagramaER}
 	\end{figure}
 \end{center}
+
+
+
+\pagebreak
+
+\section{Especificatión de atributos.}
+\subsection{Valores normales.}
+\begin{figure}[hbt]
+	\begin{center}
+		\scalebox{0.5}{\input{diagrams/ER_analisis_normales}}
+	\end{center}
+	\caption{Especificación atributos de valores normales.}
+	\label{fig:spec_valores_normales}
+\end{figure}
+\subsection{Doctor.}
+\begin{figure}[hbt]
+	\begin{center}
+		\scalebox{0.5}{\input{diagrams/ER_doctor}}
+	\end{center}
+	\caption{Especificación atributos de doctor.}
+	\label{fig:spec_doctor}
+\end{figure}
+\subsection{Solicitud.}
+\begin{figure}[hbt]
+	\begin{center}
+		\scalebox{0.5}{\input{diagrams/ER_solicitud}}
+	\end{center}
+	\caption{Especificación atributos de solicitud.}
+	\label{fig:spec_solicitud}
+\end{figure}
+\pagebreak
+\subsection{Paciente.}
+\begin{figure}[hbt]
+	\begin{center}
+		\scalebox{0.5}{\input{diagrams/ER_paciente}}
+	\end{center}
+	\caption{Especificación atributos de paciente.}
+	\label{fig:spec_paciente}
+\end{figure}
+\subsection{Parámetros.}
+\begin{figure}[hbt]
+	\begin{center}
+		\scalebox{0.5}{\input{diagrams/ER_parametros}}
+	\end{center}
+	\caption{Especificación atributos de parametros.}
+	\label{fig:spec_parametros}
+\end{figure}
+
+\pagebreak
+\section{Modelo Relacional}
+
+\paragraph{}
+{\bf Compañia} (\underline{compañia})
+
+\paragraph{}
+{\bf ValoresNormales} (\underline{edad, sexo, tipo extraccion, embarazada?}, valores)
+
+\paragraph{}
+{\bf Paciente} (\underline{DNI}, sexo, fechaNacimiento, numHistorialClinico)
+
+\paragraph{}
+{\bf Doctor} (\underline{NumeroColegiado})
+
+\paragraph{}
+{\bf Solicitud} (\underline{id}, Doctor*, Paciente*, Compañia*)\\
+\tab FK(Solicitud.Doctor = Doctor.NumeroColegiado)\\
+\tab FK(Solicitud.Paciente = Paciente.DNI)\\
+\tab FK(Solicitud.Compañia = Compañia.Compañia)
+
+\paragraph{}
+{\bf Mediciones} (\underline{ParámetroN*, ParámetroO*, Solicitud*}, resultado)\\
+\tab FK(Solicitud.ParámetroN = Parámetro.nombre)\\
+\tab FK(Solicitud.ParámetroO = Parámetro.origen)\\
+\tab FK(Solicitud.Solicitud = Solicitud.id)
+
+\paragraph{}
+{\bf Parámetro} (\underline{nombre, origen}, medidaDefecto)
+
+\paragraph{}
+{\bf p-p} (\underline{P1N*, P1O*}, P2N*, P2O*, formula)\\
+\tab FK(p-p.P1N = Parámetro.nombre)\\
+\tab FK(p-p.P2N = Parámetro.nombre)\\
+\tab FK(p-p.P1O = Parámetro.origen)\\
+\tab FK(p-p.P2O = Parámetro.origen)\\
+\tab FK(p-p.formula = calculo.id)
+
+\paragraph{}
+{\bf magnitudes} (\underline{Magnitud})
+
+\paragraph{}
+{\bf m-m} (\underline{m1*}, m2*, formula)\\
+\tab FK(m-m.m1 = Magnitud.magnitud)\\
+\tab FK(m-m.m2 = Magnitud.magnitud)
+
+\paragraph{}
+{\bf Calculo} (\underline{id}, formula, parametroObtebidoN*, parametroObtebidoO*)\\
+\tab FK(Calculo.parametroObtebidoN = parametro.nombre)\\
+\tab FK(Calculo.parametroObtebidoO = parametro.origen)
+
+\paragraph{}
+{\bf Parametros} (\underline{calculo*, parámetroN*, parámetroO}, orden)\\
+\tab FK(Parametros.parametroN = parametro.nombre)\\
+\tab FK(Parametros.parametroO = parametro.origen)\\
+\tab FK(Parametros.calculo = calculo.id)
+
+\paragraph{}
+{\bf m-p} (\underline{parámetroN*, parametroO*, magnitud*})\\
+\tab FK(m-p.parametroN = parametro.nombre)\\
+\tab FK(m-p.parametroO = parametro.origen)\\
+\tab FK(m-p.magnitud = magnitud.magnitud)
+
+\pagebreak
+
+% \section{Restricciones}
+% Sentencias sql las cuales garantizaran la consistencia de la base de datos
+% \subsection{HabilityIsAvailable}
+% \begin{scriptsize}
+%   \lstinputlisting[language=SQL]{scripts/HabilityIsAvailable.sql}
+% \end{scriptsize}
 
 
 %%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%
