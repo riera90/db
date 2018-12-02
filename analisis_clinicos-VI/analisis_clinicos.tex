@@ -25,7 +25,7 @@
 \newcommand\tab[1][1cm]{\hspace*{#1}}
 
 \title{Análisis clínicos\\{\small Revision VI}}
-\author{Diego Rodríguez Riera}
+\author{Cármen Vílchez Sanchez\\Diego Rodríguez Riera}
 \date{\today}
 
 \begin{document}
@@ -224,7 +224,7 @@ Nótese que solo el sexo, edad, y en el caso de la mujer, si esta está embaraza
 % \paragraph{}
 % Para que un análisis sea realizado éste debe ser mandado por un médico salvo en algunos casos excepcionales.
 % \subsection{Atributos de las personas}
-% 
+%
 % \paragraph{}
 % Los atributos que se guardarán de las distintas clases serán los siguientes:
 % \begin{itemize}
@@ -234,7 +234,7 @@ Nótese que solo el sexo, edad, y en el caso de la mujer, si esta está embaraza
 % \end{itemize}
 % \pagebreak
 % \subsection{Restricciones de dominio de la información}
-% 
+%
 % \paragraph{}
 % Tanto los doctores como los analistas tendrán estar acreditados con las titulaciones correspondientes a la tarea desempeñada.
 % \paragraph{}
@@ -251,7 +251,7 @@ Nótese que solo el sexo, edad, y en el caso de la mujer, si esta está embaraza
 % lación tiene la multiplicidad 1:N, ya que un análisis solo puede como máximo
 % ser recetado por un doctor, pero en ciertos escenarios, no hace falta un doctor
 % que lo recete.
-% 
+%
 % \paragraph{Analista-Análisis}
 %  Con multiplicidad N:N, ya que un análisis puede ser lle-
 % vado a cabo por varios analistas.
@@ -276,7 +276,21 @@ Como se puede observar, dentro de la entidad máquina, se encuentran los distint
 \end{itemize}
 
 \paragraph{}
-Una vez completado el análisis, se mandará un documento generado a partir de los datos del análisis al servicio de impresión para su posterior recogida por el doctor que lo encargo.\\
+Una vez completado el análisis, se mandará un documento generado a partir de los datos del análisis al servicio de impresión para su posterior recogida por el doctor que lo encargo.
+
+\pagebreak
+
+\section{Magnitudes}
+  los parametros se pueden medir en varias unidades de medida, para ello, necesitaremos tener una formula que pase de una magnitud a otra.
+
+\section{Calculos}
+Algunos de los parámetros que deseamos obtener no se obtienen por vía directa de la muestra; si no debe operarse con otros. En este apartado se útiliza una unidad de medida predeterminada, para ello crearemos una relacción entre parámetro y calculo.
+
+\subsection{parámetros}
+Parámetros: en ésta entidad, se almacenarán los parametros involucrados en una formula para calcular un parametro, estos estan definidos por: un calculo, un parametro, y un orden en el que apareceran en la formula.
+
+\section{Parámetro}
+Reune los datos brutos de las mediciones y en el se procesan dicho para obtener el resultado, que se guarda en mediciones.
 
 \pagebreak
 
@@ -403,8 +417,6 @@ Una vez completado el análisis, se mandará un documento generado a partir de l
 \tab FK(m-p.parametroN = parametro.nombre)\\
 \tab FK(m-p.parametroO = parametro.origen)\\
 \tab FK(m-p.magnitud = magnitud.magnitud)
-
-\pagebreak
 
 % \section{Restricciones}
 % Sentencias sql las cuales garantizaran la consistencia de la base de datos
